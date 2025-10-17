@@ -122,8 +122,8 @@ const Header = () => {
     { name: "Members", href: "/members", icon: "members" },
     {
       name: "2024 - TASPEF Directory",
-      href: "/assets/TASPEF-Directory-2024.pdf",
-      target:"_blank",// safer filename recommended
+      href: "/public/IFS new directory - final - 30-04-24 (1).pdf",
+      target: "_blank", // safer filename recommended
       external: true,
       icon: "directory",
     },
@@ -172,7 +172,6 @@ const Header = () => {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    download
                     className="inline-flex items-center px-3 py-2 rounded text-white text-sm lg:text-base hover:bg-green-700 transition-colors"
                   >
                     <Icon name={item.icon} />
@@ -233,7 +232,6 @@ const Header = () => {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      download
                       className="flex items-center gap-3 px-3 py-2 text-white hover:bg-green-700 rounded"
                       onClick={() => setMobileOpen(false)}
                     >
