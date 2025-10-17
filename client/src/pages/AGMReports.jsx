@@ -19,6 +19,8 @@ export default function AGMReports() {
     navigate(`/agm-reports/${encodeURIComponent(report._id)}`, {
       state: { report },
     });
+
+    
   };
 
   return (

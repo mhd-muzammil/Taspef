@@ -122,10 +122,12 @@ const Header = () => {
     { name: "Members", href: "/members", icon: "members" },
     {
       name: "2024 - TASPEF Directory",
-      href: "/assets/TASPEF-Directory-2024.pdf", // safer filename recommended
+      href: "/assets/TASPEF-Directory-2024.pdf",
+      target:"_blank",// safer filename recommended
       external: true,
       icon: "directory",
     },
+    { name: "Gallery", href: "/gallery", icon: "gallery" },
   ];
 
   const isActive = (href) => location.pathname === href;
@@ -158,7 +160,7 @@ const Header = () => {
       </div>
 
       {/* Green nav bar */}
-      <div className="bg-green-600">
+      <div className="bg-green-900">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center">
             {/* Desktop nav (centered) */}
@@ -183,7 +185,7 @@ const Header = () => {
                     to={item.href}
                     className={`inline-flex items-center px-3 py-2 rounded text-white text-sm lg:text-base transition-colors ${
                       isActive(item.href)
-                        ? "bg-green-900 text-green-700"
+                        ? "bg-green-700 text-green-700"
                         : "hover:bg-green-700"
                     }`}
                     aria-current={isActive(item.href) ? "page" : undefined}

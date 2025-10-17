@@ -11,7 +11,7 @@ const Home = () => {
           <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
         </svg>
       ),
-      link: '/e-magazine',
+      link: '/e-magazines',
     },
     {
       title: 'Office Bearers',
@@ -21,7 +21,7 @@ const Home = () => {
           <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
         </svg>
       ),
-      link: '/office-bearers',
+      link: '/Office-Bearers',
     },
     {
       title: 'Our Members',
@@ -37,55 +37,59 @@ const Home = () => {
 
   const latestUpdates = [
     {
-      title: 'Annual General Meeting 2024',
-      description: 'The AGM was held successfully with important decisions regarding forest conservation initiatives.',
-      date: 'September 24, 2024',
-      image: '/api/placeholder/400/300',
+      title: "Annual General Meeting 2024",
+      description:
+        "The AGM was held successfully with important decisions regarding forest conservation initiatives.",
+      date: "September 24, 2024",
+      image: "/assets/images/Home-card-1.jpg",
     },
     {
-      title: 'New E-Magazine Issue Released',
-      description: 'Issue 9 of Namadhu Vanam is now available featuring articles on wildlife conservation.',
-      date: 'May 15, 2024',
-      image: '/api/placeholder/400/300',
+      title: "New E-Magazine Issue Released",
+      description:
+        "Issue 9 of Namadhu Vanam is now available featuring articles on wildlife conservation.",
+      date: "May 15, 2024",
+      image: "/assets/images/Home-card-2.jpg",
     },
     {
-      title: 'Member Registration Update',
-      description: 'New members can now register online through our updated portal.',
-      date: 'March 10, 2024',
-      image: '/api/placeholder/400/300',
+      title: "Member Registration Update",
+      description:
+        "New members can now register online through our updated portal.",
+      date: "March 10, 2024",
+      image: "/assets/images/Home-card-3.jpg",
     },
-  ]
+  ];
 
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative bg-primary-500 text-white py-20 md:py-32">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-600 to-primary-400 opacity-90" />
-        <div className="container relative z-10">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in">
-              Protect Forest and Conserve Wildlife
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-gray-100 animate-fade-in">
-              Working Together to Protect and Conserve Tamil Nadu Forests
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
-              <Button
-                variant="secondary"
-                size="lg"
-                onClick={() => window.location.href = '/files'}
-              >
-                Browse Files
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                onClick={() => window.location.href = '/about'}
-                className="bg-white bg-opacity-10 border-white text-white hover:bg-white hover:text-primary-500"
-              >
-                Learn More
-              </Button>
-            </div>
+      <section className="relative w-full h-[80vh] md:h-[90vh] flex items-center justify-center overflow-hidden">
+        {/* 🎥 Background Video */}
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/assets/images/Hero-vid.mp4" // 👈 put your video in public/assets/
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+
+        {/* 🌫️ Overlay gradient for readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-green-900/40 to-transparent" />
+        {/* 💬 Hero Content */}
+        <div className="relative z-10 text-center text-white px-4">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in">
+            Protect Forest and Conserve Wildlife
+          </h1>
+          <p className="text-lg md:text-xl mb-8 text-gray-100 animate-fade-in">
+            Working Together to Protect and Conserve Tamil Nadu Forests
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in">
+            <button
+              onClick={() => (window.location.href = "/gallery")}
+              className="px-6 py-3 rounded-md border border-white bg-white/10 text-white hover:bg-white hover:text-green-700 transition-all text-lg"
+            >
+              Learn More
+            </button>
           </div>
         </div>
       </section>
@@ -106,8 +110,12 @@ const Home = () => {
                 <div className="inline-flex items-center justify-center w-20 h-20 bg-primary-100 text-primary-500 rounded-full mb-6">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-bold mb-4 text-text-primary">{feature.title}</h3>
-                <p className="text-text-secondary mb-6">{feature.description}</p>
+                <h3 className="text-xl font-bold mb-4 text-text-primary">
+                  {feature.title}
+                </h3>
+                <p className="text-text-secondary mb-6">
+                  {feature.description}
+                </p>
                 <Link to={feature.link}>
                   <Button variant="outline" size="sm">
                     Learn More
@@ -129,21 +137,26 @@ const Home = () => {
             {latestUpdates.map((update, index) => (
               <article
                 key={index}
-                className="card overflow-hidden animate-fade-in"
+                className="card overflow-hidden rounded-xl shadow hover:shadow-lg transition-all duration-300 bg-white animate-fade-in"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="h-48 bg-gray-200 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary-400 to-primary-600 opacity-20" />
+                {/* 🖼️ Image */}
+                <div className="h-48 relative overflow-hidden">
+                  <img
+                    src={update.image}
+                    alt={update.title}
+                    className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
                 </div>
+
+                {/* 📝 Content */}
                 <div className="p-6">
-                  <time className="text-sm text-text-secondary">{update.date}</time>
-                  <h3 className="text-xl font-bold mt-2 mb-3 text-text-primary">
+                  <time className="text-sm text-gray-500">{update.date}</time>
+                  <h3 className="text-xl font-bold mt-2 mb-3 text-gray-900">
                     {update.title}
                   </h3>
-                  <p className="text-text-secondary mb-4">{update.description}</p>
-                  <Button variant="ghost" size="sm">
-                    Read More →
-                  </Button>
+                  <p className="text-gray-600 mb-4">{update.description}</p>
                 </div>
               </article>
             ))}
@@ -158,19 +171,20 @@ const Home = () => {
             Join Us in Protecting Our Forests
           </h2>
           <p className="text-xl mb-8 text-gray-100 max-w-2xl mx-auto">
-            Become a member of TASPEF and contribute to the conservation of Tamil Nadu's natural heritage.
+            Become a member of TASPEF and contribute to the conservation of
+            Tamil Nadu's natural heritage.
           </p>
           <Button
             variant="secondary"
             size="lg"
-            onClick={() => window.location.href = '/members'}
+            onClick={() => (window.location.href = "/members")}
           >
             Become a Member
           </Button>
         </div>
       </section>
     </div>
-  )
+  );
 }
 
 export default Home

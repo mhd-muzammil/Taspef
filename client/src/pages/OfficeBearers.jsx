@@ -7,7 +7,7 @@ export default function OfficeBearers() {
           {/* Header */}
           <div className="text-center mb-8">
             <img
-              src="/img/taspef-logo.png"
+              src="/assets/images/taspef-logo.png"
               alt="TASPEF Logo"
               className="h-24 mx-auto mb-4"
             />
