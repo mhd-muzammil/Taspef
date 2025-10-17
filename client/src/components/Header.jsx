@@ -1,128 +1,168 @@
+// client/src/components/Header.jsx
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+const Icon = ({ name, className = "w-4 h-4 inline-block mr-2" }) => {
+  // simple small icons (Home, Users, Reports, Book, Members, Folder)
+  switch (name) {
+    case "home":
+      return (
+        <svg
+          className={className}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+        >
+          <path
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M3 11.5L12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V11.5z"
+          />
+        </svg>
+      );
+    case "office":
+      return (
+        <svg
+          className={className}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+        >
+          <path
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M3 7h18M6 21V7m6 14V7m6 14V7"
+          />
+        </svg>
+      );
+    case "reports":
+      return (
+        <svg
+          className={className}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+        >
+          <path
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 17v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6M3 21h18"
+          />
+        </svg>
+      );
+    case "magazine":
+      return (
+        <svg
+          className={className}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+        >
+          <path
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M7 7h10v12H7z M4 4h16v2H4z"
+          />
+        </svg>
+      );
+    case "members":
+      return (
+        <svg
+          className={className}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+        >
+          <path
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M16 11c1.657 0 3-1.567 3-3.5S17.657 4 16 4s-3 1.567-3 3.5S14.343 11 16 11zM8 11c1.657 0 3-1.567 3-3.5S9.657 4 8 4 5 5.567 5 7.5 6.343 11 8 11zM2 20a6 6 0 0 1 12 0M12 20a6 6 0 0 1 12 0"
+          />
+        </svg>
+      );
+    case "directory":
+      return (
+        <svg
+          className={className}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+        >
+          <path
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M3 7h18M5 21h14a1 1 0 0 0 1-1V7H4v13a1 1 0 0 0 1 1z"
+          />
+        </svg>
+      );
+    default:
+      return null;
+  }
+};
+
 const Header = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
   const navigation = [
-    { name: "Home", href: "/" },
-    { name: "Office Bearers", href: "/office-bearers" },
-    { name: "AGM Reports", href: "/agm-reports" },
-    { name: "Namadhu Vanam E-Magazine", href: "/e-magazines" },
-    { name: "Members", href: "/members" },
+    { name: "Home", href: "/", icon: "home" },
+    { name: "Office Bearers", href: "/office-bearers", icon: "office" },
+    { name: "AGM Reports", href: "/agm-reports", icon: "reports" },
+    {
+      name: "Namadhu Vanam E-Magazine",
+      href: "/e-magazines",
+      icon: "magazine",
+    },
+    { name: "Members", href: "/members", icon: "members" },
     {
       name: "2024 - TASPEF Directory",
-      href: encodeURI("/assets/IFS new directory - final - 30-04-24 (1).pdf"),
-      external: true, // mark as external
+      href: "/assets/TASPEF-Directory-2024.pdf", // safer filename recommended
+      external: true,
+      icon: "directory",
     },
   ];
 
   const isActive = (href) => location.pathname === href;
 
   return (
-    <header className="bg-primary-500 text-white shadow-lg sticky top-0 z-30">
-      <div className="container">
-        <div className="flex items-center justify-between h-16 md:h-20 gap-60">
-          {/* Logo and Title */}
-          <Link to="/" className="flex items-center space-x-3 flex-shrink-0">
-            <div className="w-12 h-12 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center">
-              <span className="text-primary-500 font-bold text-xl md:text-2xl">
-                T
-              </span>
-            </div>
-            <div className="hidden lg:block">
-              <h1 className="text-sm md:text-base font-bold leading-tight">
-                Tamil Nadu Association of Senior Professionals
-                <br />
-                <span className="text-xs md:text-sm font-normal">
-                  of Environment and Forests
-                </span>
-              </h1>
-            </div>
-            <div className="lg:hidden">
-              <h1 className="text-base md:text-lg font-bold">TASPEF</h1>
-            </div>
-          </Link>
+    <header className="sticky top-0 z-40">
+      {/* Top bar: logo left, title centered */}
+      <div className="bg-white">
+        <div className="container h-28 mx-auto px-4 py-3 flex items-center justify-between">
+          {/* logo */}
+          <div className="flex items-center">
+            <img
+              src="/assets/images/taspef-logo.png"
+              alt="TASPEF"
+              className="w-18 h-18 rounded-full object-contain"
+            />
+          </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8 lg:gap-12 whitespace-nowrap">
-            {navigation.map((item) =>
-              item.external ? (
-                // 🟢 External PDF link
-                <a
-                  key={item.name}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download
-                  className="px-3 py-2 rounded-lg text-sm lg:text-base font-medium transition-all duration-200 text-white hover:bg-primary-600"
-                >
-                  {item.name}
-                </a>
-              ) : (
-                // 🔵 Internal routes
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className={`px-3 py-2 rounded-lg text-sm lg:text-base font-medium transition-all duration-200 ${
-                    isActive(item.href)
-                      ? "bg-white text-primary-500"
-                      : "text-white hover:bg-primary-600"
-                  }`}
-                  aria-current={isActive(item.href) ? "page" : undefined}
-                >
-                  {item.name}
-                </Link>
-              )
-            )}
-          </nav>
+          {/* centered title */}
+          <div className="flex-1 text-center">
+            <h1 className="text-green-800 font-bold text-lg md:text-2xl">
+              Tamil Nadu Association of Senior Professionals of Environment and
+              Forests
+            </h1>
+          </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            type="button"
-            className="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-expanded={mobileMenuOpen}
-            aria-label="Toggle navigation menu"
-          >
-            {/* Hamburger Icon */}
-            <svg
-              className={`${mobileMenuOpen ? "hidden" : "block"} h-6 w-6`}
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="2"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-            {/* Close Icon */}
-            <svg
-              className={`${mobileMenuOpen ? "block" : "hidden"} h-6 w-6`}
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="2"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+          {/* empty spacer to keep title centered */}
+          <div className="w-12 h-12" />
         </div>
+      </div>
 
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <nav className="md:hidden pb-4" aria-label="Mobile navigation">
-            <div className="space-y-1">
+      {/* Green nav bar */}
+      <div className="bg-green-600">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-center">
+            {/* Desktop nav (centered) */}
+            <nav className="hidden md:flex items-center gap-6 lg:gap-10 whitespace-nowrap">
               {navigation.map((item) =>
                 item.external ? (
                   <a
@@ -131,30 +171,91 @@ const Header = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     download
-                    className="block px-3 py-2 rounded-lg text-base font-medium transition-all duration-200 text-white hover:bg-primary-600"
-                    onClick={() => setMobileMenuOpen(false)}
+                    className="inline-flex items-center px-3 py-2 rounded text-white text-sm lg:text-base hover:bg-green-700 transition-colors"
                   >
-                    {item.name}
+                    <Icon name={item.icon} />
+                    <span className="hidden lg:inline">{item.name}</span>
+                    <span className="lg:hidden">{item.name}</span>
                   </a>
                 ) : (
                   <Link
                     key={item.name}
                     to={item.href}
-                    className={`block px-3 py-2 rounded-lg text-base font-medium transition-all duration-200 ${
+                    className={`inline-flex items-center px-3 py-2 rounded text-white text-sm lg:text-base transition-colors ${
                       isActive(item.href)
-                        ? "bg-white text-primary-500"
-                        : "text-white hover:bg-primary-600"
+                        ? "bg-green-900 text-green-700"
+                        : "hover:bg-green-700"
                     }`}
-                    onClick={() => setMobileMenuOpen(false)}
                     aria-current={isActive(item.href) ? "page" : undefined}
                   >
-                    {item.name}
+                    <Icon name={item.icon} />
+                    <span className="hidden lg:inline">{item.name}</span>
+                    <span className="lg:hidden">{item.name}</span>
                   </Link>
                 )
               )}
+            </nav>
+
+            {/* Hamburger on small screens */}
+            <div className="md:hidden flex items-center">
+              <button
+                onClick={() => setMobileOpen((s) => !s)}
+                className="p-2 rounded text-white hover:bg-green-700"
+                aria-label="Toggle menu"
+              >
+                <svg
+                  className="w-6 h-6"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </button>
             </div>
-          </nav>
-        )}
+          </div>
+
+          {/* Mobile nav (dropdown) */}
+          {mobileOpen && (
+            <div className="md:hidden py-2">
+              <nav className="flex flex-col gap-1">
+                {navigation.map((item) =>
+                  item.external ? (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      download
+                      className="flex items-center gap-3 px-3 py-2 text-white hover:bg-green-700 rounded"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      <Icon name={item.icon} />
+                      <span>{item.name}</span>
+                    </a>
+                  ) : (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className={`flex items-center gap-3 px-3 py-2 rounded text-white hover:bg-green-700 ${
+                        isActive(item.href) ? "bg-white text-green-700" : ""
+                      }`}
+                    >
+                      <Icon name={item.icon} />
+                      <span>{item.name}</span>
+                    </Link>
+                  )
+                )}
+              </nav>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );
