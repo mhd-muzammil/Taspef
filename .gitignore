@@ -65,4 +65,5 @@ server/uploads/*
 
 # Docker
 docker-compose.override.yml
+DEPLOYMENT.md
 
