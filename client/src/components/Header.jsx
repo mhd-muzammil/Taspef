@@ -101,6 +101,22 @@ const Icon = ({ name, className = "w-4 h-4 inline-block mr-2" }) => {
           />
         </svg>
       );
+    case "gallery":
+      return (
+        <svg
+          className={className}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+        >
+          <path
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M3 3h18v18H3zM3 12h18M12 3v18"
+          />
+        </svg>
+      );
     default:
       return null;
   }
