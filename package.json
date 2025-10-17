@@ -1,0 +1,41 @@
+{
+  "name": "taspef-monorepo",
+  "version": "1.0.0",
+  "description": "TASPEF - Tamil Nadu Association of Senior Professionals of Environment and Forests - Full Stack Application",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "install:all": "npm install && cd client && npm install && cd ../server && npm install",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "build:client": "cd client && npm run build",
+    "start:server": "cd server && npm start",
+    "clean": "rm -rf node_modules client/node_modules server/node_modules client/dist"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/taspef-monorepo.git"
+  },
+  "keywords": [
+    "taspef",
+    "environment",
+    "forests",
+    "react",
+    "express",
+    "mongodb"
+  ],
+  "author": "TASPEF",
+  "license": "MIT"
+}
+
