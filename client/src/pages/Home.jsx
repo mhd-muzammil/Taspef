@@ -10,29 +10,35 @@ const Home = () => {
   const subWaveRef = useRef(null);
   const shimmerRef = useRef(null);
 
-  // ✅ Split text into spans and apply gradient text inline
-  const splitToSpans = (el) => {
+  // ✅ Split text into word and character spans (keeps words together, solid color)
+  const splitToSpans = (el, color = "#FFFFFF") => {
     if (!el || el.dataset.split === "true") return;
     const text = el.textContent || "";
     const frag = document.createDocumentFragment();
-    const gradient = "linear-gradient(90deg,#34d399,#3b82f6,#10b981)";
 
-    text.split("").forEach((ch) => {
-      const span = document.createElement("span");
-      span.className = "inline-block char";
+    text.split(" ").forEach((word, wordIndex, arr) => {
+      const wordSpan = document.createElement("span");
+      wordSpan.className = "inline-block word whitespace-nowrap";
 
-      // 🔥 Gradient text styling for each letter
-      span.style.backgroundImage = gradient;
-      span.style.backgroundSize = "200% 200%";
-      span.style.WebkitBackgroundClip = "text";
-      span.style.backgroundClip = "text";
-      span.style.WebkitTextFillColor = "transparent";
-      span.style.color = "transparent";
-      span.style.display = "inline-block";
-      span.style.fontWeight = "700";
+      word.split("").forEach((ch) => {
+        const charSpan = document.createElement("span");
+        charSpan.className = "inline-block char";
+        charSpan.style.color = color;
+        charSpan.style.display = "inline-block";
+        charSpan.style.fontWeight = "700";
+        charSpan.style.lineHeight = "1";
+        charSpan.innerHTML = ch;
+        wordSpan.appendChild(charSpan);
+      });
 
-      span.innerHTML = ch === " " ? "&nbsp;" : ch;
-      frag.appendChild(span);
+      frag.appendChild(wordSpan);
+
+      // Add a space after each word except the last one
+      if (wordIndex < arr.length - 1) {
+        const space = document.createElement("span");
+        space.innerHTML = "&nbsp;";
+        frag.appendChild(space);
+      }
     });
 
     el.innerHTML = "";
@@ -45,8 +51,9 @@ const Home = () => {
     const subtitle = subtitleRef.current;
     if (!title || !subtitle) return;
 
-    splitToSpans(title);
-    splitToSpans(subtitle);
+    // Apply solid white to title, solid yellow to subtitle
+    splitToSpans(title, "#FFFFFF");
+    splitToSpans(subtitle, "#FFD700");
 
     const titleChars = title.querySelectorAll(".char");
     const subChars = subtitle.querySelectorAll(".char");
@@ -78,7 +85,7 @@ const Home = () => {
       }
     );
 
-    // 🌊 Continuous looping wave animation
+    // 🌊 Continuous looping wave animation for title
     const waveTL = gsap.timeline({ repeat: -1, repeatDelay: 0 });
     waveTL.to(titleChars, {
       y: 6,
@@ -94,6 +101,7 @@ const Home = () => {
     });
     waveTLRef.current = waveTL;
 
+    // 🌊 Continuous looping wave animation for subtitle
     const subWave = gsap.timeline({ repeat: -1, repeatDelay: 0 });
     subWave.to(subChars, {
       y: 4,
@@ -109,17 +117,9 @@ const Home = () => {
     });
     subWaveRef.current = subWave;
 
-    // 💫 Gradient shimmer animation
-    const shimmer = gsap.to(titleChars, {
-      backgroundPosition: "200% center",
-      duration: 6,
-      ease: "linear",
-      repeat: -1,
-      yoyo: true,
-    });
-    shimmerRef.current = shimmer;
+    // (No gradient shimmer — omitted because you want solid colors)
 
-    // Hover effect
+    // Hover effect (keeps animation behavior)
     const onEnter = () => {
       gsap.to(titleChars, {
         y: 10,
@@ -155,13 +155,13 @@ const Home = () => {
     return () => {
       waveTL.kill();
       subWave.kill();
-      shimmer.kill();
+      shimmerRef.current?.kill?.();
       title.removeEventListener("mouseenter", onEnter);
       title.removeEventListener("mouseleave", onLeave);
     };
   }, []);
 
-  // 🌱 Data (unchanged)
+  // rest of your data (features, latestUpdates) unchanged...
   const features = [
     {
       title: "E-Magazine",
@@ -240,7 +240,7 @@ const Home = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-green-900/40 to-transparent z-10" />
 
         {/* 💬 Text Content */}
-        <div className="relative z-20 text-center text-white px-4">
+        <div className="relative z-20 text-center px-4">
           <h1
             ref={titleRef}
             className="relative text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-extrabold text-center max-w-[1200px] mx-auto leading-tight"
@@ -251,7 +251,7 @@ const Home = () => {
 
           <p
             ref={subtitleRef}
-            className="text-lg md:text-3xl mb-10 text-gray-100 mt-[220px] leading-snug"
+            className="text-lg md:text-3xl mb-10 mt-[220px] leading-snug font-semibold"
           >
             Working Together to Protect and Conserve Tamil Nadu Forests
           </p>

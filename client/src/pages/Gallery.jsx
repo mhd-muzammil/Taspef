@@ -17,7 +17,7 @@ const Gallery = () => {
   }, []);
 
   const [filter, setFilter] = useState("All");
-  const [selectedImg, setSelectedImg] = useState(null); // 👈 track full-screen image
+  const [selectedImg, setSelectedImg] = useState(null);
 
   const items = useMemo(() => {
     return manifest
@@ -36,30 +36,81 @@ const Gallery = () => {
     return items.filter((i) => (i.tags || []).includes(filter));
   }, [items, filter]);
 
+  const tagCards = tags.filter((t) => t !== "All");
+
+  // ✅ Custom cover images for each category
+  const coverMap = {
+    "wild Life": "/assets/Gallery/covers/wildlife-cover.jpg",
+    meetings: "/assets/Gallery/gallery-21.png",
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
+      {/* Header */}
       <div className="flex flex-col sm:flex-row items-center justify-between mb-6">
         <h1 className="text-3xl font-bold text-center sm:text-left">Gallery</h1>
-
-        <select
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          className="border px-3 py-2 rounded mt-3 sm:mt-0"
+        <button
+          onClick={() => setFilter("All")}
+          className={`px-3 py-2 rounded border mt-3 sm:mt-0 ${
+            filter === "All" ? "bg-gray-200" : ""
+          }`}
         >
-          {tags.map((t) => (
-            <option key={t} value={t}>
-              {t}
-            </option>
-          ))}
-        </select>
+          Show All
+        </button>
       </div>
 
-      {/* Image Grid */}
+      {/* ✅ Filter Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+        {tagCards.map((t) => {
+          const bgImg =
+            coverMap[t] ||
+            (() => {
+              const match = items.find((it) => (it.tags || []).includes(t));
+              return match ? match.src : "";
+            })();
+
+          return (
+            <div
+              key={t}
+              onClick={() => setFilter(t)}
+              className="relative h-40 rounded-2xl overflow-hidden shadow-lg cursor-pointer transform transition-transform duration-200 hover:-translate-y-1"
+            >
+              {/* Card background */}
+              <img
+                src={bgImg}
+                alt={`${t} cover`}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+
+              {/* Gradient overlay for better text readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+              {/* Text at bottom */}
+              <div className="absolute bottom-0 left-0 right-0 flex items-center justify-between px-4 py-2 bg-black/40 backdrop-blur-sm">
+                <div className="text-white text-lg font-semibold capitalize">
+                  {t}
+                </div>
+                <div className="text-gray-200 text-sm">
+                  {items.filter((it) => (it.tags || []).includes(t)).length}{" "}
+                  photos
+                </div>
+              </div>
+
+              {/* Highlight border when active */}
+              {filter === t && (
+                <div className="pointer-events-none absolute inset-0 ring-4 ring-indigo-300 rounded-2xl" />
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ✅ Image Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {shown.map((img, idx) => (
           <div
             key={idx}
-            onClick={() => setSelectedImg(img.src)} // 👈 open full-screen
+            onClick={() => setSelectedImg(img.src)}
             className="overflow-hidden rounded-lg shadow cursor-pointer"
           >
             <img
@@ -73,11 +124,11 @@ const Gallery = () => {
         ))}
       </div>
 
-      {/* Full-screen lightbox */}
+      {/* ✅ Full-screen Lightbox */}
       {selectedImg && (
         <div
           className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50"
-          onClick={() => setSelectedImg(null)} // 👈 close on click outside
+          onClick={() => setSelectedImg(null)}
         >
           <img
             src={selectedImg}
@@ -86,7 +137,7 @@ const Gallery = () => {
           />
           <button
             className="absolute top-6 right-8 text-white text-3xl font-bold"
-            onClick={() => setSelectedImg(null)} // 👈 close button
+            onClick={() => setSelectedImg(null)}
           >
             ×
           </button>
