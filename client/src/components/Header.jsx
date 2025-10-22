@@ -164,9 +164,8 @@ const Header = () => {
 
           {/* centered title */}
           <div className="flex-1 text-center">
-            <h1 className="text-green-800 font-bold text-lg md:text-2xl">
-              Tamil Nadu Association of Senior Professionals of Environment and
-              Forests
+            <h1 className="text-green-800 font-bold text-lg md:text-3xl">
+              Protect Forest and Conserve Wildlife
             </h1>
           </div>
 

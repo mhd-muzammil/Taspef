@@ -1,7 +1,7 @@
 {
   "name": "taspef-monorepo",
   "version": "1.0.0",
-  "description": "TASPEF - Tamil Nadu Association of Senior Professionals of Environment and Forests - Full Stack Application",
+  "description": "TASPEF - Tamil Nadu Association of Senior Professionals of Environment and Forests",
   "private": true,
   "workspaces": [
     "client",
