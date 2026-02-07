@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import EditorialBoard from "../components/EditorialBoard";
 
 // Mock data (adjust fileUrl to match public folder: /assets or /uploads)
-const MAGAZINES = Array.from({ length: 10 }).map((_, i) => {
+const MAGAZINES = Array.from({ length: 11 }).map((_, i) => {
   const n = i + 1;
   return {
     _id: String(n),
     title: `Namathu Vanam - Issue ${n}`,
-    date: `Year ${2025 - i}`,
+    date: `Year ${2016 + i}`,
     fileUrl: `/assets/Issue-${n}.pdf`, // adjust to /uploads/... if you use that
     coverUrl: `/assets/images/i-${n}.png`,
     originalName: `Issue-${n}.pdf`,
@@ -76,9 +76,9 @@ export default function EMagazines() {
   };
 
   // derived sets
-  const latestIssue = mags.find((m) => m._id === "10");
+  const latestIssue = mags.find((m) => m._id === "11");
   const previousIssues = mags
-    .filter((m) => m._id !== "10")
+    .filter((m) => m._id !== "11")
     .sort((a, b) => Number(b._id) - Number(a._id));
 
   return (
