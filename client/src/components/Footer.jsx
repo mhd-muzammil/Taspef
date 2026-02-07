@@ -86,7 +86,15 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="text-accent-500 hover:text-accent-400 font-medium transition-colors duration-200"
               >
-                Skiez Technologies India Private Limited
+                Skiez Technologies India Private Limited&nbsp;
+              </a>
+              <a
+                href="https://www.skiezdigital.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent-500 hover:text-accent-400 font-medium transition-colors duration-200"
+              >
+                & Skiez Digital
               </a>
             </p>
           </div>

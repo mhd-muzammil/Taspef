@@ -43,7 +43,7 @@ export default function OfficeBearers() {
             </div>
             {/* Right Column */}
             <div className="text-center">
-              <h3 className="text-blue-900 text-lg font-bold">MR D. Arun</h3>
+              <h3 className="text-blue-900 text-lg font-bold">Mr D. Arun</h3>
               <p className="text-blue-800">IFS, CF (Retd)</p>
               <p className="text-blue-900">General Secretary</p>
             </div>

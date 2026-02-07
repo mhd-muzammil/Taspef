@@ -204,22 +204,22 @@ const Home = () => {
       title: "Annual General Meeting 2024",
       description:
         "The AGM was held successfully with important decisions regarding forest conservation initiatives.",
-      date: "September 24, 2024",
-      image: "/assets/images/Home-card-1.jpg",
+      date: "September 14, 2025",
+      image: "/assets/Gallery/gallery-19.png",
     },
     {
       title: "New E-Magazine Issue Released",
       description:
-        "Issue 9 of Namadhu Vanam is now available featuring articles on wildlife conservation.",
-      date: "May 15, 2024",
-      image: "/assets/images/Home-card-2.jpg",
+        "Issue 12 of Namadhu Vanam is now available featuring articles on wildlife conservation.",
+      date: "Feb 15, 2026",
+      image: "/assets/images/i-11.png",
     },
     {
-      title: "Member Registration Update",
+      title: "Wildlife Conservation",
       description:
-        "New members can now register online through our updated portal.",
+        "Leading strategic efforts to monitor, protect and restore critical habitats for Tamil Nadu’s endangered species and biodiversity.",
       date: "March 10, 2024",
-      image: "/assets/images/Home-card-3.jpg",
+      image: "/assets/Gallery/covers/wildlife-cover.jpg",
     },
   ];
 
@@ -292,7 +292,7 @@ const Home = () => {
                 </p>
                 <Link to={feature.link}>
                   <Button variant="outline" size="sm">
-                    Learn More
+                    View More
                   </Button>
                 </Link>
               </div>

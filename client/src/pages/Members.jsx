@@ -2,10 +2,7 @@
 import React, { useMemo } from "react";
 import membersData from "../data/members.json";
 
-/**
- * Helper to format dates from common variants (e.g. "6/5/2023" or "2023-06-05")
- * Returns date as "dd/mm/yyyy" or original string if parsing fails.
- */
+
 function formatDate(raw) {
   if (!raw) return "";
   // try Date parsing safely
@@ -36,29 +33,29 @@ function formatDate(raw) {
 }
 
 /** small CSV export utility */
-function exportCSV(rows, filename = "members.csv") {
-  if (!rows || !rows.length) return;
-  const header = Object.keys(rows[0]);
-  const csv = [
-    header.join(","),
-    ...rows.map((r) =>
-      header
-        .map((h) => {
-          const v = r[h] ?? "";
-          const safe = String(v).replace(/"/g, '""');
-          return `"${safe}"`;
-        })
-        .join(",")
-    ),
-  ].join("\n");
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
+// function exportCSV(rows, filename = "members.csv") {
+//   if (!rows || !rows.length) return;
+//   const header = Object.keys(rows[0]);
+//   const csv = [
+//     header.join(","),
+//     ...rows.map((r) =>
+//       header
+//         .map((h) => {
+//           const v = r[h] ?? "";
+//           const safe = String(v).replace(/"/g, '""');
+//           return `"${safe}"`;
+//         })
+//         .join(",")
+//     ),
+//   ].join("\n");
+//   const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+//   const url = URL.createObjectURL(blob);
+//   const a = document.createElement("a");
+//   a.href = url;
+//   a.download = filename;
+//   a.click();
+//   URL.revokeObjectURL(url);
+// }
 
 export default function Members() {
   // sort by id ascending
@@ -103,12 +100,12 @@ export default function Members() {
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-semibold">Our Members</h2>
         <div className="flex items-center gap-3">
-          <button
+          {/* <button
             onClick={() => exportCSV(members, "members.csv")}
             className="bg-green-600 text-white px-3 py-1.5 rounded text-sm hover:bg-green-700"
           >
             Export CSV
-          </button>
+          </button> */}
         </div>
       </div>
 
