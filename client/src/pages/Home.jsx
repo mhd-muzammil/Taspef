@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import { gsap } from "gsap";
+import FloatingBar from "../components/FloatingBar";
 
 const Home = () => {
   const titleRef = useRef(null);
@@ -224,6 +225,7 @@ const Home = () => {
 
   return (
     <div>
+      <FloatingBar/>
       {/* 🌿 Hero Section */}
       <section className="relative w-full h-[80vh] md:h-[90vh] flex items-center justify-center overflow-hidden">
         {/* 🎥 Background Video */}
