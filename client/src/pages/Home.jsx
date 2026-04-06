@@ -1,275 +1,173 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+
 import Button from "../components/Button";
-import { gsap } from "gsap";
 import FloatingBar from "../components/FloatingBar";
+import FloatingQuizButton from "../components/FloatingQuizButton";
+
+import "swiper/css";
+
+const HERO_TITLE =
+  "Tamil Nadu Association of Senior Professionals of Environment and Forests";
+
+const HERO_SUBTITLE =
+  "Working Together to Protect and Conserve Tamil Nadu Forests";
 
 const Home = () => {
-  const titleRef = useRef(null);
-  const subtitleRef = useRef(null);
-  const waveTLRef = useRef(null);
-  const subWaveRef = useRef(null);
-  const shimmerRef = useRef(null);
+  const [typedTitle, setTypedTitle] = useState("");
+  const [typedSubtitle, setTypedSubtitle] = useState("");
+  const [cycle, setCycle] = useState(0); // 🔁 loop trigger
 
-  // ✅ Split text into word and character spans (keeps words together, solid color)
-  const splitToSpans = (el, color = "#FFFFFF") => {
-    if (!el || el.dataset.split === "true") return;
-    const text = el.textContent || "";
-    const frag = document.createDocumentFragment();
-
-    text.split(" ").forEach((word, wordIndex, arr) => {
-      const wordSpan = document.createElement("span");
-      wordSpan.className = "inline-block word whitespace-nowrap";
-
-      word.split("").forEach((ch) => {
-        const charSpan = document.createElement("span");
-        charSpan.className = "inline-block char";
-        charSpan.style.color = color;
-        charSpan.style.display = "inline-block";
-        charSpan.style.fontWeight = "700";
-        charSpan.style.lineHeight = "1";
-        charSpan.innerHTML = ch;
-        wordSpan.appendChild(charSpan);
-      });
-
-      frag.appendChild(wordSpan);
-
-      // Add a space after each word except the last one
-      if (wordIndex < arr.length - 1) {
-        const space = document.createElement("span");
-        space.innerHTML = "&nbsp;";
-        frag.appendChild(space);
-      }
-    });
-
-    el.innerHTML = "";
-    el.appendChild(frag);
-    el.dataset.split = "true";
-  };
-
+  // 🔠 Typing effect for TITLE
   useEffect(() => {
-    const title = titleRef.current;
-    const subtitle = subtitleRef.current;
-    if (!title || !subtitle) return;
+    let index = 0;
 
-    // Apply solid white to title, solid yellow to subtitle
-    splitToSpans(title, "#FFFFFF");
-    splitToSpans(subtitle, "#FFD700");
-
-    const titleChars = title.querySelectorAll(".char");
-    const subChars = subtitle.querySelectorAll(".char");
-
-    // ✨ Intro animation
-    gsap.fromTo(
-      titleChars,
-      { y: 60, opacity: 0, rotationX: -18 },
-      {
-        y: 0,
-        opacity: 1,
-        rotationX: 0,
-        duration: 1.2,
-        ease: "elastic.out(1, 0.6)",
-        stagger: { each: 0.03, from: "center" },
+    const interval = setInterval(() => {
+      if (index <= HERO_TITLE.length) {
+        setTypedTitle(HERO_TITLE.slice(0, index));
+        index++;
+      } else {
+        clearInterval(interval);
       }
-    );
+    }, 40);
 
-    gsap.fromTo(
-      subChars,
-      { y: 40, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power3.out",
-        stagger: { each: 0.02, from: "center" },
-        delay: 0.5,
+    return () => clearInterval(interval);
+  }, [cycle]); // 🔁 restart on cycle change
+
+  // 🔠 Typing effect for SUBTITLE (after title)
+  useEffect(() => {
+    if (typedTitle.length !== HERO_TITLE.length) return;
+
+    let index = 0;
+
+    const interval = setInterval(() => {
+      if (index <= HERO_SUBTITLE.length) {
+        setTypedSubtitle(HERO_SUBTITLE.slice(0, index));
+        index++;
+      } else {
+        clearInterval(interval);
+
+        // ⏳ wait 5 seconds, then restart
+        setTimeout(() => {
+          setTypedTitle("");
+          setTypedSubtitle("");
+          setCycle((c) => c + 1); // 🔁 trigger re-run
+        }, 5000);
       }
-    );
+    }, 35);
 
-    // 🌊 Continuous looping wave animation for title
-    const waveTL = gsap.timeline({ repeat: -1, repeatDelay: 0 });
-    waveTL.to(titleChars, {
-      y: 6,
-      duration: 0.9,
-      ease: "sine.inOut",
-      stagger: { each: 0.03, from: "center" },
-    });
-    waveTL.to(titleChars, {
-      y: -4,
-      duration: 0.9,
-      ease: "sine.inOut",
-      stagger: { each: 0.03, from: "center" },
-    });
-    waveTLRef.current = waveTL;
+    return () => clearInterval(interval);
+  }, [typedTitle]);
 
-    // 🌊 Continuous looping wave animation for subtitle
-    const subWave = gsap.timeline({ repeat: -1, repeatDelay: 0 });
-    subWave.to(subChars, {
-      y: 4,
-      duration: 1.2,
-      ease: "sine.inOut",
-      stagger: { each: 0.025, from: "center" },
-    });
-    subWave.to(subChars, {
-      y: -3,
-      duration: 1.2,
-      ease: "sine.inOut",
-      stagger: { each: 0.025, from: "center" },
-    });
-    subWaveRef.current = subWave;
+   const features = [
+     {
+       title: "E-Magazine",
+       description:
+         'Access our digital magazine "Namadhu Vanam" with articles on forest conservation and wildlife.',
+       icon: (
+         <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
+           <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
+         </svg>
+       ),
+       link: "/e-magazines",
+     },
+     {
+       title: "Office Bearers",
+       description:
+         "Meet our leadership team and executive committee members dedicated to environmental conservation.",
+       icon: (
+         <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
+           <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+         </svg>
+       ),
+       link: "/Office-Bearers",
+     },
+     {
+       title: "Our Members",
+       description:
+         "Browse our member directory and connect with fellow professionals in environment and forests.",
+       icon: (
+         <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
+           <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+         </svg>
+       ),
+       link: "/members",
+     },
+   ];
 
-    // (No gradient shimmer — omitted because you want solid colors)
+   const latestUpdates = [
+     {
+       title: "Annual General Meeting 2024",
+       description:
+         "The AGM was held successfully with important decisions regarding forest conservation initiatives.",
+       date: "September 14, 2025",
+       image: "/assets/Gallery/gallery-19.png",
+     },
+     {
+       title: "New E-Magazine Issue Released",
+       description:
+         "Issue 12 of Namadhu Vanam is now available featuring articles on wildlife conservation.",
+       date: "Feb 15, 2026",
+       image: "/assets/images/i-11.png",
+     },
+     {
+       title: "Wildlife Conservation",
+       description:
+         "Leading strategic efforts to monitor, protect and restore critical habitats for Tamil Nadu’s endangered species and biodiversity.",
+       date: "March 10, 2024",
+       image: "/assets/Gallery/covers/wildlife-cover.jpg",
+     },
+   ];
 
-    // Hover effect (keeps animation behavior)
-    const onEnter = () => {
-      gsap.to(titleChars, {
-        y: 10,
-        duration: 0.35,
-        ease: "sine.out",
-        stagger: 0.01,
-      });
-      gsap.to(subChars, {
-        y: 6,
-        duration: 0.35,
-        ease: "sine.out",
-        stagger: 0.01,
-      });
-    };
-    const onLeave = () => {
-      gsap.to(titleChars, {
-        y: 0,
-        duration: 0.4,
-        ease: "sine.inOut",
-        stagger: 0.01,
-      });
-      gsap.to(subChars, {
-        y: 0,
-        duration: 0.4,
-        ease: "sine.inOut",
-        stagger: 0.01,
-      });
-    };
-
-    title.addEventListener("mouseenter", onEnter);
-    title.addEventListener("mouseleave", onLeave);
-
-    return () => {
-      waveTL.kill();
-      subWave.kill();
-      shimmerRef.current?.kill?.();
-      title.removeEventListener("mouseenter", onEnter);
-      title.removeEventListener("mouseleave", onLeave);
-    };
-  }, []);
-
-  // rest of your data (features, latestUpdates) unchanged...
-  const features = [
-    {
-      title: "E-Magazine",
-      description:
-        'Access our digital magazine "Namadhu Vanam" with articles on forest conservation and wildlife.',
-      icon: (
-        <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
-        </svg>
-      ),
-      link: "/e-magazines",
-    },
-    {
-      title: "Office Bearers",
-      description:
-        "Meet our leadership team and executive committee members dedicated to environmental conservation.",
-      icon: (
-        <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-        </svg>
-      ),
-      link: "/Office-Bearers",
-    },
-    {
-      title: "Our Members",
-      description:
-        "Browse our member directory and connect with fellow professionals in environment and forests.",
-      icon: (
-        <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-        </svg>
-      ),
-      link: "/members",
-    },
-  ];
-
-  const latestUpdates = [
-    {
-      title: "Annual General Meeting 2024",
-      description:
-        "The AGM was held successfully with important decisions regarding forest conservation initiatives.",
-      date: "September 14, 2025",
-      image: "/assets/Gallery/gallery-19.png",
-    },
-    {
-      title: "New E-Magazine Issue Released",
-      description:
-        "Issue 12 of Namadhu Vanam is now available featuring articles on wildlife conservation.",
-      date: "Feb 15, 2026",
-      image: "/assets/images/i-11.png",
-    },
-    {
-      title: "Wildlife Conservation",
-      description:
-        "Leading strategic efforts to monitor, protect and restore critical habitats for Tamil Nadu’s endangered species and biodiversity.",
-      date: "March 10, 2024",
-      image: "/assets/Gallery/covers/wildlife-cover.jpg",
-    },
-  ];
 
   return (
     <div>
-      <FloatingBar/>
-      {/* 🌿 Hero Section */}
-      <section className="relative w-full h-[80vh] md:h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* 🎥 Background Video */}
-        <video
-          className="absolute inset-0 w-full h-full object-cover -z-20"
-          src="/assets/images/Hero-1.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-        />
+      <FloatingBar />
+      <FloatingQuizButton />
 
-        {/* 🌫️ Overlay */}
+      {/* 🌿 HERO SECTION */}
+      <section className="relative w-full h-[80vh] md:h-[90vh] overflow-hidden">
+        {/* 🌄 BACKGROUND CAROUSEL */}
+        <Swiper
+          modules={[Autoplay]}
+          autoplay={{ delay: 2500, disableOnInteraction: false }}
+          loop
+          speed={1000}
+          className="absolute inset-0 w-full h-full"
+        >
+          {[
+            
+            "/public/assets/c1.png",
+            "/public/assets/c2.png",
+            "/public/assets/c3.png",
+            "/public/assets/c4.png",
+          ].map((img, i) => (
+            <SwiperSlide key={i}>
+              <img src={img} className="w-full h-full object-cover" />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        {/* 🌫️ OVERLAY */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-green-900/40 to-transparent z-10" />
 
-        {/* 💬 Text Content */}
-        <div className="relative z-20 text-center px-4">
-          <h1
-            ref={titleRef}
-            className="relative text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-extrabold text-center max-w-[1200px] mx-auto leading-tight"
-          >
-            Tamil Nadu Association of Senior Professionals of Environment and
-            Forests
+        {/* 💬 HERO TEXT */}
+        <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white max-w-[1200px] leading-tight min-h-[380px]">
+            {typedTitle}
+            <span className="animate-pulse"></span>
           </h1>
 
-          <p
-            ref={subtitleRef}
-            className="text-lg md:text-3xl mb-10 mt-[220px] leading-snug font-semibold"
-          >
-            Working Together to Protect and Conserve Tamil Nadu Forests
+          <p className="text-lg md:text-3xl mt-6 font-semibold text-accent-400 min-h-[60px]">
+            {typedSubtitle}
           </p>
 
-          <div className="flex justify-center">
-            <button
-              onClick={() => (window.location.href = "/gallery")}
-              className="px-6 py-3 rounded-md border border-white bg-white/10 text-white hover:bg-white hover:text-green-700 transition-all text-lg mt-[140px]"
-            >
-              View More
-            </button>
-          </div>
+          
         </div>
       </section>
 
-      {/* 🌱 Features Section */}
       <section className="py-16 md:py-24 bg-background-light">
         <div className="container">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-text-primary">

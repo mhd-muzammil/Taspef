@@ -11,6 +11,8 @@ import Members from "./pages/Members";
 import AGMReportDetail from "./pages/AGMReportDetail";
 import EMagazineDetail from "./pages/EMagazineDetail";
 import Gallery from "./pages/Gallery";
+import ForestQuiz from "./pages/Quiz";
+import QuizResult from "./pages/QuizResult";
 
 
 function App() {
@@ -18,7 +20,7 @@ function App() {
     <Router>
       <div className="flex flex-col min-h-screen">
         <Header />
-        
+
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -30,6 +32,8 @@ function App() {
             <Route path="/e-magazines/:id" element={<EMagazineDetail />} />
             <Route path="/members" element={<Members />} />
             <Route path="/gallery" element={<Gallery />} />
+            <Route path="/quiz" element={<ForestQuiz />} />
+            <Route path="/quiz/result" element={<QuizResult />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
